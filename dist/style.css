@@ -1,0 +1,132 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #9dabaf
+}
+
+button {
+    margin: 0;
+}
+
+#wrapper {
+    min-width: 350px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #F5FBEF;
+    height: 100vh;
+}
+
+#top-bar {
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-areas: "i s r";
+    grid-template-columns: 9fr 1fr;
+    border-bottom: solid 1px grey;
+}
+
+#input {
+    background-color: #A4C2A8;
+    color: #454955;
+    grid-area: i;
+    padding-left: 15px;
+    font-size: 120%;
+    outline: none;
+    border: none;
+}
+
+#search {
+    grid-area: s;
+    background-color: #5CAB7D;
+    color: white;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+#search:active {
+    background-color: rgb(57, 134, 89);
+}
+
+/* #refresh {
+    grid-area: r;
+    background-color: #006989;
+    color: white;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+#refresh:active {
+    background-color: #01546d;
+} */
+
+.box {
+    display: grid;
+    grid-template-areas: "i t d";
+    grid-template-columns: 2fr 2fr 6fr 1fr;
+    border-bottom: solid gray 1px;
+    padding: 10px 0;
+}
+
+.saved {
+    background-color: #26758d;
+    color: #F5FBEF
+}
+
+.saved>.temp {
+    font-size: 140%;
+}
+
+.image {
+    grid-area: i;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    grid-template-columns: 1fr 2fr;
+    padding-left: 10px;
+}
+
+.temp {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    grid-area: t;
+    font-size: 150%
+}
+
+.data {
+    grid-area: d;
+    display: grid;
+    grid-template-areas: "n" "c" "u";
+    justify-content: center;
+    width: 100%;
+}
+
+.data span {
+    display: grid;
+    justify-content: center;
+}
+
+.name {
+    font-weight: bold;
+    grid-area: n;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 90% 10%;
+}
+
+.name>span {
+    padding-left: 10%;
+}
+
+.condition {
+    grid-area: c;
+}
+
+.updatedAt {
+    margin-top: 2px;
+    grid-area: u;
+    font-size: 60%;
+    color: #A4C2A8
+}

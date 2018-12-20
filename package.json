@@ -1,0 +1,22 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "idanSaban",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "handlebars": "^4.0.12",
+    "jquery": "^3.3.1",
+    "moment": "^2.23.0",
+    "mongoose": "^5.4.0",
+    "nodemon": "^1.18.9",
+    "request": "^2.88.0"
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Weather Is Cool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP"
+        crossorigin="anonymous">
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./handlebars/dist/handlebars.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="top-bar">
+            <input id="input" type="text">
+            <div id="search"><i class="fas fa-search"></i></div>
+            <!-- <div id="refresh"><i class="fas fa-sync-alt"></i></div> -->
+        </div>
+        <div id="weather-container"></div>
+    </div>
+    <script id="weather-template" type="text/x-handlebars-template">
+        {{#each allCityData}}
+            <div class="box {{#if saved}} saved {{/if}}" data-name="{{name}}">
+                <div class="image">
+                        {{#if saved}}<i class="fas fa-sync-alt"></i>{{/if}}
+                    <img src="{{conditionPic}}"/>
+                </div>
+                <span class="temp">{{temperature}}&#8451;</span>
+                <div class="data">
+                    <div class="name">
+                        <span>
+                            {{name}}
+                        </span> 
+                    </div>
+                    <span class="condition">{{condition}}</span>
+                    <span class="updatedAt">Last Update: {{updatedAt}}</span>
+                </div>
+                {{#unless saved}}
+                <i class="fas fa-thumbtack save"></i>
+                {{/unless}}
+                {{#if saved}}
+                 <i class="fas fa-times unsave"></i>
+                {{/if}}
+
+            </div>
+        {{/each}}
+      </script>
+    <script src="Renderer.js"></script>
+    <script src="Logic.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
