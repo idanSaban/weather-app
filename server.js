@@ -10,7 +10,7 @@ const api = require('./server/routes/api')
 
 // Mongoose setup
 const mongoose = require('mongoose')
-mongoose.connect(
+mongoose.connect(process.env.CONNECTION_STRING ||
   'mongodb://localhost/weatherDB',
   { useNewUrlParser: true }
 ).then(() => console.log("DB Connected"))
@@ -25,7 +25,7 @@ app.use('/', api)
 
 
 
-const port = 4200
-app.listen(port, function () {
+
+app.listen(process.env.PORT || '8080', function () {
   console.log(`Running on port ${port} - ${Date()}`)
 })
