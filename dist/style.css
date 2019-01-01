@@ -12,7 +12,7 @@ button {
     min-width: 350px;
     max-width: 800px;
     margin: auto;
-    background-color: #F5FBEF;
+    background-color: #E8F7EE;
     height: 100vh;
 }
 
@@ -26,7 +26,7 @@ button {
 }
 
 #input {
-    background-color: #A4C2A8;
+    background-color: #71B48D;
     color: #454955;
     grid-area: i;
     padding-left: 15px;
@@ -37,7 +37,7 @@ button {
 
 #search {
     grid-area: s;
-    background-color: #5CAB7D;
+    background-color: #86CB92;
     color: white;
     display: grid;
     justify-content: center;
@@ -62,16 +62,38 @@ button {
 } */
 
 .box {
+    background-color: rgb(188, 231, 222);
     display: grid;
-    grid-template-areas: "i t d";
-    grid-template-columns: 2fr 2fr 6fr 1fr;
+    grid-template-areas: "s" "m";
+    grid-template-rows: 1fr 4fr;
     border-bottom: solid gray 1px;
+}
+
+.main-box {
+    display: grid;
+    grid-area: m;
+    grid-template-areas: "i t d";
+    grid-template-columns: 1fr 1fr 2fr;
     padding: 10px 0;
 }
 
+.sub-box {
+    display: grid;
+    grid-area: s;
+    grid-template-areas: "s u";
+    grid-template-columns: 1fr 5fr 1fr;
+}
+
+.s-btn {
+    grid-area: s;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
 .saved {
-    background-color: #26758d;
-    color: #F5FBEF
+    /* background-color: #26758d; */
+    /* background-image: linear-gradient(rgb(108, 142, 177), rgb(145, 191, 238)); */
+    background-image: linear-gradient(#5ca2b8, #6ea4b4);
 }
 
 .saved>.temp {
@@ -83,7 +105,7 @@ button {
     display: grid;
     align-content: center;
     justify-content: center;
-    grid-template-columns: 1fr 2fr;
+    /* grid-template-columns: 1fr 2fr; */
     padding-left: 10px;
 }
 
@@ -98,9 +120,8 @@ button {
 .data {
     grid-area: d;
     display: grid;
-    grid-template-areas: "n" "c" "u";
+    grid-template-areas: "n" "c";
     justify-content: center;
-    width: 100%;
 }
 
 .data span {
@@ -113,11 +134,10 @@ button {
     grid-area: n;
     display: grid;
     justify-content: center;
-    grid-template-columns: 90% 10%;
 }
 
 .name>span {
-    padding-left: 10%;
+    width: 100%;
 }
 
 .condition {
@@ -125,8 +145,10 @@ button {
 }
 
 .updatedAt {
+    display: grid;
+    justify-content: center;
     margin-top: 2px;
     grid-area: u;
     font-size: 60%;
-    color: #A4C2A8
+    color: rgb(73, 111, 122);
 }

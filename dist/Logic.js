@@ -1,19 +1,18 @@
 class WeatherManager {
-    constructor(renderer) {
-        this.renderer = renderer
-        this.cityData = []
+    constructor() {
+        this.savedData = []
+        this.unSavedData = []
+        this.userId
     }
-    getDataFromDB() {
-        const cities = $.get(`/cities`)
-        cities.then((data) => {
-            console.log(data)
-            if (data)
-            {
-                this.cityData.push(...data)
-            }
-            this.renderer.renderData(this.cityData)
-        })
+    setUserId(userId) {
+        this.userId = userId
     }
+    async getDataFromDB() {
+        const cities = await $.get(`/cities/${this.userId}`)
+        console.log(cities)
+        this.savedData = cities
+    }
+
     async getCityData(cityName) {
         const result = await $.get(`/city/${cityName}`)
         console.log(result)
@@ -25,8 +24,9 @@ class WeatherManager {
             updatedAt: result.updatedAt,
             saved: false
         }
+
         let cityAlreadyExist = false
-        this.cityData.forEach(c => {
+        this.unSavedData.forEach(c => {
             if (c.name === newObj.name)
             {
                 cityAlreadyExist = true
@@ -35,42 +35,44 @@ class WeatherManager {
         if (!cityAlreadyExist)
         {
             console.log(newObj)
-            this.cityData.push(newObj)
-            this.renderer.renderData(this.cityData)
+            this.unSavedData.push(newObj)
         }
     }
-    saveCity(cityName) {
-        const city = this.cityData.find(c => c.name === cityName)
+    async saveCity(cityName) {
+        const index = this.unSavedData.findIndex(c => c.name === cityName)
+        const city = this.unSavedData[index]
+        this.unSavedData.splice(index, 1)
+
         console.log(`LOGIC: save ${city.name}`)
-        $.post(`/city`, city, (newCity) => {
-            this.cityData = this.cityData.filter(c => c.name !== newCity.name)
-            this.cityData.unshift(newCity)
-            this.renderer.renderData(this.cityData)
-        })
+        const user = await $.post(`/city/${this.userId}`, city)
+
+        console.log(user)
+        this.savedData = user.cities
+
     }
     async removeCity(cityName) {
-        const unsavedCity = await $.ajax({
-            url: `/city/${cityName}`,
-            method: "delete",
-            success: function (res) {
-                return res
-            }
+        const city = this.savedData.find(c => c.name === cityName)
+        city.saved = false
+        const user = await $.ajax({
+            url: `/city/${this.userId}/${cityName}`,
+            method: "delete"
         })
-        this.cityData = this.cityData.filter(c => c.name !== unsavedCity.name)
-        this.cityData.push(unsavedCity)
-        this.renderer.renderData(this.cityData)
+        this.unSavedData.unshift(city)
+        this.savedData = user.cities
     }
-    async updateCity(cityName) {
-        const updatedCity = await $.ajax({
-            url: `/city/${cityName}`,
-            method: "put",
-            success: function (res) {
-                return res
-            }
-        })
-        console.log(updatedCity)
-        const index = this.cityData.findIndex(c => c.name === updatedCity.name)
-        this.cityData[index] = updatedCity
-        this.renderer.renderData(this.cityData)
-    }
+
+
+    // async updateCity(cityName) {
+    //     const updatedCity = await $.ajax({
+    //         url: `/city/${cityName}`,
+    //         method: "put",
+    //         success: function (res) {
+    //             return res
+    //         }
+    //     })
+    //     console.log(updatedCity)
+    //     const index = this.cityData.findIndex(c => c.name === updatedCity.name)
+    //     this.cityData[index] = updatedCity
+    // }
 }
+

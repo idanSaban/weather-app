@@ -2,7 +2,8 @@ class Renderer {
     constructor() {
 
     }
-    renderData(allCityData) {
+    renderData(saved, unsaved) {
+        const allCityData = saved.concat(unsaved)
         console.log("rendering")
         console.log(allCityData)
         $('#input').val("")
@@ -12,6 +13,5 @@ class Renderer {
         const template = Handlebars.compile(source);
         const newHTML = template({ allCityData });
         $('#weather-container').append(newHTML);
-
     }
 } 
