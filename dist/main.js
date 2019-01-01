@@ -1,25 +1,42 @@
-const renderer = new Renderer
-const weatherManager = new WeatherManager(renderer)
+const renderer = new Renderer()
+const weatherManager = new WeatherManager()
 
-const loadPage = () => {
-    weatherManager.getDataFromDB()
+const loadPage = async () => {
+    if (localStorage.getItem("weatherUser") === null)
+    {
+        const user = await $.get('/user')
+        localStorage.setItem("weatherUser", user)
+        weatherManager.setUserId(user)
+        console.log(user)
 
+    } else
+    {
+        const user = localStorage.getItem("weatherUser")
+        weatherManager.setUserId(user)
+        await weatherManager.getDataFromDB()
+        console.log(user)
+    }
+    renderer.renderData(weatherManager.cityData)
 }
 
-const handleSearch = () => {
+const handleSearch = async () => {
     const input = $("#input").val()
-    weatherManager.getCityData(input)
+    await weatherManager.getCityData(input)
+    renderer.renderData(weatherManager.cityData)
 }
 $("#search").on("click", handleSearch)
 
-const saveCity = function () {
+const saveCity = async function () {
     const cityName = $(this).closest(".box").data()
     console.log(`saving ${cityName.name}`)
-    weatherManager.saveCity(cityName.name)
+    await weatherManager.saveCity(cityName.name)
+    renderer.renderData(weatherManager.cityData)
 }
-const removeCity = function () {
+const removeCity = async function () {
     const cityName = $(this).closest(".box").data()
-    weatherManager.removeCity(cityName.name)
+    await weatherManager.removeCity(cityName.name)
+    console.log(weatherManager.cityData)
+    renderer.renderData(weatherManager.cityData)
 }
 const updateCity = function () {
     const cityName = $(this).closest(".box").data()

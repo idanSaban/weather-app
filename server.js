@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const path = require('path')
 const api = require('./server/routes/api')
 
+
+
+
 // Mongoose setup
 const mongoose = require('mongoose')
 mongoose.connect(
@@ -18,6 +21,9 @@ app.use(express.static(path.join(__dirname, 'node_modules')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/', api)
+
+
+
 
 const port = 4200
 app.listen(port, function () {
