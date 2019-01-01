@@ -1,5 +1,7 @@
 const renderer = new Renderer()
 const weatherManager = new WeatherManager()
+const savedData = weatherManager.savedData
+const unSavedData = weatherManager.unSavedData
 
 const loadPage = async () => {
     if (localStorage.getItem("weatherUser") === null)
@@ -16,13 +18,13 @@ const loadPage = async () => {
         await weatherManager.getDataFromDB()
         console.log(user)
     }
-    renderer.renderData(weatherManager.savedData, weatherManager.unSavedData)
+    renderer.renderData(savedData, unSavedData)
 }
 
 const handleSearch = async () => {
     const input = $("#input").val()
     await weatherManager.getCityData(input)
-    renderer.renderData(weatherManager.savedData, weatherManager.unSavedData)
+    renderer.renderData(savedData, unSavedData)
 }
 $("#search").on("click", handleSearch)
 
@@ -30,13 +32,13 @@ const saveCity = async function () {
     const cityName = $(this).closest(".box").data()
     console.log(`saving ${cityName.name}`)
     await weatherManager.saveCity(cityName.name)
-    renderer.renderData(weatherManager.savedData, weatherManager.unSavedData)
+    renderer.renderData(savedData, unSavedData)
 }
 const removeCity = async function () {
     const cityName = $(this).closest(".box").data()
     await weatherManager.removeCity(cityName.name)
     console.log(weatherManager.cityData)
-    renderer.renderData(weatherManager.savedData, weatherManager.unSavedData)
+    renderer.renderData(savedData, unSavedData)
 }
 
 $("#weather-container").on("click", ".save", saveCity)
