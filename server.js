@@ -27,5 +27,5 @@ app.use('/', api)
 
 
 app.listen(process.env.PORT || '8080', function () {
-  console.log(`Running on port ${port} - ${Date()}`)
+  console.log(`Server is Running`)
 })
