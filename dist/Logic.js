@@ -37,22 +37,20 @@ class WeatherManager {
             this.cityData.push(newObj)
         }
     }
-    saveCity(cityName) {
+    async saveCity(cityName) {
         const city = this.cityData.find(c => c.name === cityName)
         console.log(`LOGIC: save ${city.name}`)
-        $.post(`/city/${this.userId}`, city, (newCity) => {
-            console.log(newCity)
-            this.cityData = this.cityData.filter(c => c.name !== newCity.name)
-            this.cityData.unshift(newCity)
-        })
+        const user = await $.post(`/city/${this.userId}`, city)
+        console.log(user)
+        this.cityData = user.cities
+
     }
     async removeCity(cityName) {
-        const unsavedCity = await $.ajax({
+        const user = await $.ajax({
             url: `/city/${this.userId}/${cityName}`,
             method: "delete"
         })
-
-        this.cityData = this.cityData.filter(c => c.name !== unsavedCity.name)
+        this.cityData = user.cities
     }
     // async updateCity(cityName) {
     //     const updatedCity = await $.ajax({
