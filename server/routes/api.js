@@ -68,11 +68,13 @@ router.get('/city/:cityName', async function (req, res) {
   {
     request(`http://api.apixu.com/v1/current.json?key=bfe068d6e27046cfbec112504181912&q=${req.params.cityName}`, function (error, response, body) {
       const condition = JSON.parse(body)
-      if (condition != null)
+      if (!condition.error)
       {
         condition.updatedAt = moment(condition.current.last_updated).format("lll")
+        res.send(condition)
       }
-      res.send(condition)
+      console.log(`${req.params.cityName} is not a city`)
+      res.end()
     })
   }
 })
