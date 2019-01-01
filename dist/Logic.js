@@ -1,6 +1,7 @@
 class WeatherManager {
     constructor() {
-        this.cityData = []
+        this.savedData = []
+        this.unSavedData = []
         this.userId
     }
     setUserId(userId) {
@@ -9,7 +10,7 @@ class WeatherManager {
     async getDataFromDB() {
         const cities = await $.get(`/cities/${this.userId}`)
         console.log(cities)
-        this.cityData = cities
+        this.savedData = cities
     }
 
     async getCityData(cityName) {
@@ -25,7 +26,7 @@ class WeatherManager {
         }
 
         let cityAlreadyExist = false
-        this.cityData.forEach(c => {
+        this.unSavedData.forEach(c => {
             if (c.name === newObj.name)
             {
                 cityAlreadyExist = true
@@ -34,24 +35,33 @@ class WeatherManager {
         if (!cityAlreadyExist)
         {
             console.log(newObj)
-            this.cityData.push(newObj)
+            this.unSavedData.push(newObj)
         }
     }
     async saveCity(cityName) {
-        const city = this.cityData.find(c => c.name === cityName)
+        const index = this.unSavedData.findIndex(c => c.name === cityName)
+        const city = this.unSavedData[index]
+        this.unSavedData.splice(index, 1)
+
         console.log(`LOGIC: save ${city.name}`)
         const user = await $.post(`/city/${this.userId}`, city)
+
         console.log(user)
-        this.cityData = user.cities
+        this.savedData = user.cities
 
     }
     async removeCity(cityName) {
+        const city = this.savedData.find(c => c.name === cityName)
+        city.saved = false
         const user = await $.ajax({
             url: `/city/${this.userId}/${cityName}`,
             method: "delete"
         })
-        this.cityData = user.cities
+        this.unSavedData.unshift(city)
+        this.savedData = user.cities
     }
+
+
     // async updateCity(cityName) {
     //     const updatedCity = await $.ajax({
     //         url: `/city/${cityName}`,
@@ -65,3 +75,4 @@ class WeatherManager {
     //     this.cityData[index] = updatedCity
     // }
 }
+
