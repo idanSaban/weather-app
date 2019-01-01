@@ -38,14 +38,9 @@ const removeCity = async function () {
     console.log(weatherManager.cityData)
     renderer.renderData(weatherManager.savedData, weatherManager.unSavedData)
 }
-// const updateCity = function () {
-//     const cityName = $(this).closest(".box").data()
-//     weatherManager.updateCity(cityName.name)
-// }
 
 $("#weather-container").on("click", ".save", saveCity)
 $("#weather-container").on("click", ".unsave", removeCity)
-// $("#weather-container").on("click", ".fa-sync-alt", updateCity)
 
 $("#input").keypress(function (e) {
     const key = e.which;

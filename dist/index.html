@@ -18,34 +18,37 @@
         <div id="top-bar">
             <input id="input" type="text">
             <div id="search"><i class="fas fa-search"></i></div>
-            <!-- <div id="refresh"><i class="fas fa-sync-alt"></i></div> -->
         </div>
         <div id="weather-container"></div>
     </div>
     <script id="weather-template" type="text/x-handlebars-template">
         {{#each allCityData}}
             <div class="box {{#if saved}} saved {{/if}}" data-name="{{name}}">
-                <div class="image">
-                        {{#if saved}}<i class="fas fa-sync-alt"></i>{{/if}}
-                    <img src="{{conditionPic}}"/>
-                </div>
-                <span class="temp">{{temperature}}&#8451;</span>
-                <div class="data">
-                    <div class="name">
-                        <span>
-                            {{name}}
-                        </span> 
+                <div class="main-box">
+                    <div class="image">
+                        <img src="{{conditionPic}}"/>
                     </div>
-                    <span class="condition">{{condition}}</span>
-                    <span class="updatedAt">Last Update: {{updatedAt}}</span>
+                    <span class="temp">{{temperature}}&#8451;</span>
+                    <div class="data">
+                        <div class="name">
+                            <span>
+                                {{name}}
+                            </span> 
+                        </div>
+                        <span class="condition">{{condition}}</span>
+                    </div>
                 </div>
-                {{#unless saved}}
-                <i class="fas fa-thumbtack save"></i>
-                {{/unless}}
-                {{#if saved}}
-                 <i class="fas fa-times unsave"></i>
-                {{/if}}
-
+                <div class="sub-box">
+                    <div class="s-btn">
+                        {{#unless saved}}
+                        <i class="fas fa-thumbtack save"></i>
+                        {{/unless}}
+                        {{#if saved}}
+                        <i class="fas fa-times unsave"></i>
+                        {{/if}}
+                    </div>
+                    <span class="updatedAt"> Last Update: {{updatedAt}} (Local-Time)</span>
+                </div>
             </div>
         {{/each}}
       </script>
