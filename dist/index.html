@@ -40,14 +40,16 @@
                     </div>
                 </div>
                 <div class="sub-box">
-                    <div class="s-btn">
-                        {{#unless saved}}
-                        <i class="fas fa-thumbtack save"></i>
+                    {{#unless saved}}
+                    <div class="s-btn save">
+                        <i class="fas fa-thumbtack "></i>
+                    </div>
                         {{/unless}}
                         {{#if saved}}
-                        <i class="fas fa-times unsave"></i>
+                        <div class="s-btn unsave">
+                            <i class="fas fa-times "></i>
+                        </div>
                         {{/if}}
-                    </div>
                     <span class="updatedAt"> Last Update: {{updatedAt}} (Local-Time)</span>
                 </div>
             </div>
