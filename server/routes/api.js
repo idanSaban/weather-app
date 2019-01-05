@@ -60,9 +60,10 @@ router.get('/user', async function (req, res) {
 router.get('/city/:cityName', async function (req, res) {
   if (await cityExist(req.params.cityName))
   {
-    console.log("city in db")
     await update(req.params.cityName)
-    res.send(await City.find({ cityName: req.params.cityName }))
+    const condition = await City.find({ name: req.params.cityName })
+    console.log(condition)
+    res.send(condition[0])
   }
   else
   {
@@ -70,26 +71,28 @@ router.get('/city/:cityName', async function (req, res) {
       const condition = JSON.parse(body)
       if (!condition.error)
       {
-        condition.updatedAt = moment(condition.current.last_updated).format("lll")
-        res.send(condition)
+        const newObj = {
+          name: condition.location.name,
+          temperature: condition.current.temp_c,
+          condition: condition.current.condition.text,
+          conditionPic: condition.current.condition.icon,
+          updatedAt: condition.updatedAt
+        }
+        res.send(newObj)
       }
-      console.log(`${req.params.cityName} is not a city`)
       res.end()
     })
   }
 })
 
 router.post('/city/:user', async function (req, res) {
-  console.log(req.body)
   const userId = req.params.user
   let city
   if (await cityExist(req.body.name))
   {
     city = await City.findOne({ name: req.body.name })
-    console.log("city exist")
   } else
   {
-    console.log("city doesnt exist")
     city = new City({
       name: req.body.name,
       updatedAt: req.body.updatedAt,
@@ -123,10 +126,8 @@ router.get('/cities/:user', function (req, res) {
 })
 
 router.delete('/city/:user/:cityName', function (req, res) {
-  console.log("trying to delete")
   const userId = req.params.user
   const city = req.params.cityName
-  console.log(`DELETE: user: ${userId} -- city ${city}`)
   User.findById(userId)
     .populate('cities')
     .exec(function (err, user) {

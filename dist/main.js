@@ -7,38 +7,35 @@ const loadPage = async () => {
     if (localStorage.getItem("weatherUser") === null)
     {
         const user = await $.get('/user')
-        localStorage.setItem("weatherUser", user)
-        weatherManager.setUserId(user)
-        console.log(user)
+        localStorage.setItem("weatherUser", user._id)
+        weatherManager.setUserId(user._id)
+
 
     } else
     {
         const user = localStorage.getItem("weatherUser")
         weatherManager.setUserId(user)
         await weatherManager.getDataFromDB()
-        console.log(user)
     }
-    renderer.renderData(savedData, unSavedData)
+    renderer.renderData(weatherManager.getDataToRender())
 }
 
 const handleSearch = async () => {
     const input = $("#input").val()
     await weatherManager.getCityData(input)
-    renderer.renderData(savedData, unSavedData)
+    renderer.renderData(weatherManager.getDataToRender())
 }
 $("#search").on("click", handleSearch)
 
 const saveCity = async function () {
     const cityName = $(this).closest(".box").data()
-    console.log(`saving ${cityName.name}`)
     await weatherManager.saveCity(cityName.name)
-    renderer.renderData(savedData, unSavedData)
+    renderer.renderData(weatherManager.getDataToRender())
 }
 const removeCity = async function () {
     const cityName = $(this).closest(".box").data()
     await weatherManager.removeCity(cityName.name)
-    console.log(weatherManager.cityData)
-    renderer.renderData(savedData, unSavedData)
+    renderer.renderData(weatherManager.getDataToRender())
 }
 
 $("#weather-container").on("click", ".save", saveCity)

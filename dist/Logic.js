@@ -7,20 +7,21 @@ class WeatherManager {
     setUserId(userId) {
         this.userId = userId
     }
+    getDataToRender() {
+        return this.savedData.concat(this.unSavedData)
+    }
     async getDataFromDB() {
         const cities = await $.get(`/cities/${this.userId}`)
-        console.log(cities)
         this.savedData = cities
     }
 
     async getCityData(cityName) {
         const result = await $.get(`/city/${cityName}`)
-        console.log(result)
         const newObj = {
-            name: result.location.name,
-            temperature: result.current.temp_c,
-            condition: result.current.condition.text,
-            conditionPic: result.current.condition.icon,
+            name: result.name,
+            temperature: result.temperature,
+            condition: result.condition,
+            conditionPic: result.conditionPic,
             updatedAt: result.updatedAt,
             saved: false
         }
@@ -34,7 +35,6 @@ class WeatherManager {
         })
         if (!cityAlreadyExist)
         {
-            console.log(newObj)
             this.unSavedData.push(newObj)
         }
     }
@@ -42,11 +42,7 @@ class WeatherManager {
         const index = this.unSavedData.findIndex(c => c.name === cityName)
         const city = this.unSavedData[index]
         this.unSavedData.splice(index, 1)
-
-        console.log(`LOGIC: save ${city.name}`)
         const user = await $.post(`/city/${this.userId}`, city)
-
-        console.log(user)
         this.savedData = user.cities
 
     }
@@ -60,19 +56,5 @@ class WeatherManager {
         this.unSavedData.unshift(city)
         this.savedData = user.cities
     }
-
-
-    // async updateCity(cityName) {
-    //     const updatedCity = await $.ajax({
-    //         url: `/city/${cityName}`,
-    //         method: "put",
-    //         success: function (res) {
-    //             return res
-    //         }
-    //     })
-    //     console.log(updatedCity)
-    //     const index = this.cityData.findIndex(c => c.name === updatedCity.name)
-    //     this.cityData[index] = updatedCity
-    // }
 }
 
