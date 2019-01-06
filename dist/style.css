@@ -52,7 +52,8 @@ button {
 
 .box {
     /* background-color: rgb(112, 174, 193); */
-    background-color: #E8F7EE;
+    /* background-color: #E8F7EE; */
+    background-color: white;
     display: grid;
     grid-template-areas: "s" "m";
     grid-template-rows: 1fr 4fr;
