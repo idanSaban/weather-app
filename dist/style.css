@@ -52,10 +52,13 @@ button {
 
 .box {
     background-color: rgb(112, 174, 193);
+    /* background-color: #E8F7EE; */
     display: grid;
     grid-template-areas: "s" "m";
     grid-template-rows: 1fr 4fr;
     border-bottom: solid #086788 1px;
+    margin-bottom: 5px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.253)
 }
 
 .main-box {
@@ -80,8 +83,6 @@ button {
 }
 
 .saved {
-    /* background-color: #26758d; */
-    /* background-image: linear-gradient(rgb(108, 142, 177), rgb(145, 191, 238)); */
     background-image: linear-gradient( #4ba0b9, #1a93bb);
 }
 
