@@ -17,6 +17,10 @@ class WeatherManager {
 
     async getCityData(cityName) {
         const result = await $.get(`/city/${cityName}`)
+        if (!result)
+        {
+            return
+        }
         const newObj = {
             name: result.name,
             temperature: result.temperature,

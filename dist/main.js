@@ -9,8 +9,6 @@ const loadPage = async () => {
         const user = await $.get('/user')
         localStorage.setItem("weatherUser", user._id)
         weatherManager.setUserId(user._id)
-
-
     } else
     {
         const user = localStorage.getItem("weatherUser")
@@ -22,6 +20,10 @@ const loadPage = async () => {
 
 const handleSearch = async () => {
     const input = $("#input").val()
+    if (!input)
+    {
+        return
+    }
     await weatherManager.getCityData(input)
     renderer.renderData(weatherManager.getDataToRender())
 }

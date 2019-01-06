@@ -69,18 +69,21 @@ router.get('/city/:cityName', async function (req, res) {
   {
     request(`http://api.apixu.com/v1/current.json?key=bfe068d6e27046cfbec112504181912&q=${req.params.cityName}`, function (error, response, body) {
       const condition = JSON.parse(body)
-      if (!condition.error)
+
+      if (condition.error)
+      {
+        res.end()
+      } else
       {
         const newObj = {
           name: condition.location.name,
           temperature: condition.current.temp_c,
           condition: condition.current.condition.text,
           conditionPic: condition.current.condition.icon,
-          updatedAt: condition.updatedAt
+          updatedAt: moment(condition.current.last_updated).format("lll")
         }
         res.send(newObj)
       }
-      res.end()
     })
   }
 })
